@@ -97,7 +97,7 @@ class BoardCSM extends SchoolBoards implements JsonSerializable
                 'grade3' => $this->student->getGrade3(),
                 'grade4' => $this->student->getGrade4(),
                 'average' => $this->avgGrade,
-                'pass' => $this->pass
+                'pass' => $this->pass ? "Pass" : "Fail"
             ]
         ];
     }
@@ -206,7 +206,7 @@ class BoardCSMB extends SchoolBoards
         $average = $xml->createElement("average", $this->avgGrade);
         $results->appendChild($average);
 
-        $pass = $xml->createElement("pass", $this->pass ? "Yes" : "Not");
+        $pass = $xml->createElement("pass", $this->pass ? "Pass" : "Fail");
         $results->appendChild($pass);
 
         echo htmlentities("<xml>".$xml->saveXML()."</xml>");
