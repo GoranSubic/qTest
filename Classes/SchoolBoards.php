@@ -1,7 +1,9 @@
 <?php
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
+
+require_once "CSMBoardRepository.php";
+require_once "CSMBBoardRepository.php";
 
 /** @ORM\MappedSuperclass */
 abstract class SchoolBoards
@@ -22,7 +24,7 @@ abstract class SchoolBoards
 }
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CSMBoardRepository")
  * @ORM\Table(name="board_csm")
  */
 class BoardCSM extends SchoolBoards implements JsonSerializable
@@ -104,7 +106,7 @@ class BoardCSM extends SchoolBoards implements JsonSerializable
 }
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CSMBoardRepository")
  * @ORM\Table(name="board_csmb")
  */
 class BoardCSMB extends SchoolBoards

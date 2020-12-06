@@ -1,8 +1,8 @@
 <?php
 
-require_once "Classes/Student.php";
-require_once "Classes/SchoolBoards.php";
 require_once "bootstrap.php";
+require_once "Classes/SchoolBoards.php";
+require_once "Classes/Student.php";
 
 echo "<h1>Students board</h1>";
 
@@ -15,27 +15,24 @@ echo "<br /><p><a href='?student=5'>Student 5 CSM board data</a></p>";
 if(isset($_GET['student'])) {
     $studentId = $_GET['student'];
 
-    $boardCSM = $entityManager->find('BoardCSM', $studentId);
-    if ($boardCSM === null) {
-        echo "CSM No student found.\n";
+    echo "<hr>";
+    echo "<h2>REPOSITORY - CSM Board data</h2>";
+    echo "<br />";
+    $repoCSMBoard = $entityManager->getRepository(BoardCSM::class)->findById($studentId);
+    if ($repoCSMBoard === null) {
+        echo "Repository - CSM No student found.\n";
         exit(1);
     }
-
-    echo "<hr>";
-    echo "<h2>CSM Board data</h2>";
-    echo "<br />";
-    echo json_encode($boardCSM->jsonSerialize());
+    echo json_encode($repoCSMBoard);
 
     echo "<br /><br />";
-
     echo "<hr>";
-    echo "<h2>CSMB Board data</h2>";
+    echo "<h2>REPOSITORY - CSMB Board data</h2>";
     echo "<br />";
-
-    $boardCSMB = $entityManager->find('BoardCSMB', $studentId);
-    if ($boardCSMB === null) {
-        echo "CSMB No student found.\n";
+    $repoCSMBBoard = $entityManager->getRepository(BoardCSMB::class)->findByStudent($studentId);
+    if ($repoCSMBBoard === null) {
+        echo "Repository - CSMB No student found.\n";
         exit(1);
     }
-    echo "<pre>".$boardCSMB->xmlData()."</pre>";
+    echo "<pre>".$repoCSMBBoard[0]->xmlData()."</pre>";
 }
