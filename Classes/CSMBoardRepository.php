@@ -2,6 +2,8 @@
 
 use Doctrine\ORM\EntityRepository;
 
+require_once "PrintBoard.php";
+
 class CSMBoardRepository extends EntityRepository
 {
     public function findById($studentId)
@@ -12,7 +14,10 @@ class CSMBoardRepository extends EntityRepository
             ->setParameter(1, $studentId)
             ->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_OBJECT)
         ;
+        if(!$board) return null;
 
-        return $board ? $board->jsonSerialize() : null;
+        $csmBoardJson = new CSMBoardToJson($board);
+
+        return $csmBoardJson ? $csmBoardJson->export() : null;
     }
 }

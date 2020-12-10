@@ -2,17 +2,22 @@
 
 use Doctrine\ORM\EntityRepository;
 
+require_once "PrintBoard.php";
+
 class CSMBBoardRepository extends EntityRepository
 {
-    public function findByStudent($studentId)
+    public function findById($studentId)
     {
         $dql = "SELECT b, s FROM BoardCSMB b JOIN b.student s WHERE s.id = ?1";
 
-        $result = $this->getEntityManager()->createQuery($dql)
+        $board = $this->getEntityManager()->createQuery($dql)
             ->setParameter(1, $studentId)
             ->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_OBJECT)
         ;
+        if(!$board) return null;
 
-        return $result;
+        $csmbBoardXml = new CSMBBoardToXml($board);
+
+        return $csmbBoardXml ? $csmbBoardXml->export() : null;
     }
 }

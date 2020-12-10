@@ -29,10 +29,10 @@ if(isset($_GET['student'])) {
     echo "<hr>";
     echo "<h2>REPOSITORY - CSMB Board data</h2>";
     echo "<br />";
-    $repoCSMBBoard = $entityManager->getRepository(BoardCSMB::class)->findByStudent($studentId);
+    $repoCSMBBoard = $entityManager->getRepository(BoardCSMB::class)->findById($studentId);
     if ($repoCSMBBoard === null) {
         echo "Repository - CSMB No student found.\n";
         exit(1);
     }
-    echo "<pre>".$repoCSMBBoard[0]->xmlData()."</pre>";
+    echo "<pre>".$repoCSMBBoard."</pre>";
 }

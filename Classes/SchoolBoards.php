@@ -27,7 +27,7 @@ abstract class SchoolBoards
  * @ORM\Entity(repositoryClass="CSMBoardRepository")
  * @ORM\Table(name="board_csm")
  */
-class BoardCSM extends SchoolBoards implements JsonSerializable
+class BoardCSM extends SchoolBoards
 {
     /**
      * @ORM\Id
@@ -48,6 +48,54 @@ class BoardCSM extends SchoolBoards implements JsonSerializable
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return Student
+     */
+    public function getStudent(): Student
+    {
+        return $this->student;
+    }
+
+    /**
+     * @param Student $student
+     */
+    public function setStudent(Student $student): void
+    {
+        $this->student = $student;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAvgGrade(): int
+    {
+        return $this->avgGrade;
+    }
+
+    /**
+     * @param int $avgGrade
+     */
+    public function setAvgGrade(int $avgGrade): void
+    {
+        $this->avgGrade = $avgGrade;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPass(): bool
+    {
+        return $this->pass;
+    }
+
+    /**
+     * @param bool $pass
+     */
+    public function setPass(bool $pass): void
+    {
+        $this->pass = $pass;
     }
 
     public function calcBoard()
@@ -81,32 +129,10 @@ class BoardCSM extends SchoolBoards implements JsonSerializable
         $this->avgGrade >= 7 ? $this->pass = true : $this->pass = false;
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4
-     */
-    public function jsonSerialize()
-    {
-        return [
-            'result' => [
-                'id' => $this->student->getId(),
-                'name' => $this->student->getName(),
-                'grade1' => $this->student->getGrade1(),
-                'grade2' => $this->student->getGrade2(),
-                'grade3' => $this->student->getGrade3(),
-                'grade4' => $this->student->getGrade4(),
-                'average' => $this->avgGrade,
-                'pass' => $this->pass ? "Pass" : "Fail"
-            ]
-        ];
-    }
 }
 
 /**
- * @ORM\Entity(repositoryClass="CSMBoardRepository")
+ * @ORM\Entity(repositoryClass="CSMBBoardRepository")
  * @ORM\Table(name="board_csmb")
  */
 class BoardCSMB extends SchoolBoards
@@ -130,6 +156,54 @@ class BoardCSMB extends SchoolBoards
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return Student
+     */
+    public function getStudent(): Student
+    {
+        return $this->student;
+    }
+
+    /**
+     * @param Student $student
+     */
+    public function setStudent(Student $student): void
+    {
+        $this->student = $student;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAvgGrade(): int
+    {
+        return $this->avgGrade;
+    }
+
+    /**
+     * @param int $avgGrade
+     */
+    public function setAvgGrade(int $avgGrade): void
+    {
+        $this->avgGrade = $avgGrade;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPass(): bool
+    {
+        return $this->pass;
+    }
+
+    /**
+     * @param bool $pass
+     */
+    public function setPass(bool $pass): void
+    {
+        $this->pass = $pass;
     }
 
     public function calcBoard()
@@ -177,41 +251,4 @@ class BoardCSMB extends SchoolBoards
         $this->pass = ($biggest > 8) ? true : false;
     }
 
-    public function xmlData()
-    {
-        $xml = new DOMDocument("1.0");
-        // It will format the output in xml format otherwise
-        // the output will be in a single row
-        $xml->formatOutput=true;
-        $results = $xml->createElement("results");
-        $xml->appendChild($results);
-
-
-        $id=$xml->createElement("id", $this->student->getId());
-        $results->appendChild($id);
-
-        $name = $xml->createElement("name", $this->student->getName());
-        $results->appendChild($name);
-
-        $grade1 = $xml->createElement("grade1", $this->student->getGrade1() ? $this->student->getGrade1() : 0);
-        $results->appendChild($grade1);
-
-        $grade2 = $xml->createElement("grade2", $this->student->getGrade2() ? $this->student->getGrade2() : 0);
-        $results->appendChild($grade2);
-
-        $grade3 = $xml->createElement("grade3", $this->student->getGrade3() ? $this->student->getGrade3() : 0);
-        $results->appendChild($grade3);
-
-        $grade4 = $xml->createElement("grade4", $this->student->getGrade4() ? $this->student->getGrade4() : 0);
-        $results->appendChild($grade4);
-
-        $average = $xml->createElement("average", $this->avgGrade);
-        $results->appendChild($average);
-
-        $pass = $xml->createElement("pass", $this->pass ? "Pass" : "Fail");
-        $results->appendChild($pass);
-
-        echo htmlentities("<xml>".$xml->saveXML()."</xml>");
-        $xml->save("resultsCSMB.xml");
-    }
 }
