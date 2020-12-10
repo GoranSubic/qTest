@@ -78,8 +78,10 @@ class CSMBBoardToXml implements PrintBoardInterface
         $pass = $xml->createElement("pass", $this->csmbBoard->isPass() ? "Pass" : "Fail");
         $results->appendChild($pass);
 
-        echo htmlentities("<xml>".$xml->saveXML()."</xml>");
+        $strXml = htmlentities("<xml>".$xml->saveXML()."</xml>");
         $xml->save("resultsCSMB.xml");
+
+        return $strXml;
     }
 }
 
